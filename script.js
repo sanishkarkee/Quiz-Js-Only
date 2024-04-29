@@ -176,6 +176,8 @@ const quizData = [
 // Step 2: Javascript initializations
 const quiz = document.querySelector('#quiz');
 
+const scores = document.querySelector('.score');
+
 const answerElm = document.querySelectorAll('answer');
 
 const [questionElm, option_1, option_2, option_3, option_4] =
@@ -196,7 +198,8 @@ const loadQuiz = () => {
 
   //   replacing static question with dynamic questions from js
   questionElm.innerText = `${currentQuiz + 1}: ${question}`;
-  //   options.forEach((curOption, index) => {});
+
+  scores.innerText = `Your score: ${score}/${quizData.length}`;
 
   options.forEach(
     (curOption, index) => (window[`option_${index + 1}`].innerText = curOption)
