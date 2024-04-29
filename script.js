@@ -246,7 +246,7 @@ submitBtn.addEventListener('click', () => {
     quiz.innerHtml = `
     <div class="result">
     <h2> 🏆Your score: ${score}/${quizData.length} correct answers </h2>
-    <p>congratulations on completing the quiz!🎉 </p>
+    <p>Congratulations on completing the quiz!🎉 </p>
     <button class="reload-button" onclick="location.reload()">Play Again 🔁</button>
     `;
   }
