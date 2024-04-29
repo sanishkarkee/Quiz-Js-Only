@@ -174,7 +174,10 @@ const quizData = [
 ];
 
 // Step 2: Javascript initializations
+const quiz = document.querySelector('#quiz');
+
 const answerElm = document.querySelectorAll('answer');
+
 const [questionElm, option_1, option_2, option_3, option_4] =
   document.querySelectorAll(
     '#question, .option_1, .option_2, .option_3, .option_4'
@@ -182,17 +185,17 @@ const [questionElm, option_1, option_2, option_3, option_4] =
 
 const submitBtn = document.querySelector('#submit');
 
-const currentQuiz = 0;
-const score = 0;
+let currentQuiz = 0;
+let score = 0;
 
 // Step 3: Load quiz functions
 
 const loadQuiz = () => {
   const { question, options } = quizData[currentQuiz];
-  console.log(options);
+  console.log(question, options);
 
-  //   replacing statix question with dynamic questions from js
-  questionElm.innerText = question;
+  //   replacing static question with dynamic questions from js
+  questionElm.innerText = `${currentQuiz + 1}: ${question}`;
   //   options.forEach((curOption, index) => {});
 
   options.forEach(
@@ -203,3 +206,45 @@ const loadQuiz = () => {
 loadQuiz();
 
 // Get selected answer from the button click
+getSelectedOption = () => {
+  //   let ans_index;
+  //   answerElm.forEach((curOption, index) => {
+  //     if (curOption.checked) {
+  //       ans_index = index;
+  //     }
+  //   });
+  //   return ans_index;
+  let answerElement = Array.from(answerElm);
+  return answerElement.findIndex((curElem) => curElem.checked);
+};
+
+// Deselected Answers
+const deselectedAnswers = () => {
+  return answerElm.forEach((curElem) => (curElem.checked = false));
+};
+
+submitBtn.addEventListener('click', () => {
+  const selectedOptionIndex = getSelectedOption();
+  console.log(selectedOptionIndex);
+
+  //   Score dekhauna
+  if (selectedOptionIndex === quizData[currentQuiz].correct) {
+    score = score + 1;
+  }
+  //   submit press garne bittikai next question load hunxa
+  currentQuiz++;
+
+  if (currentQuiz < quizData.length) {
+    deselectedAnswers();
+    loadQuiz();
+  }
+  //   Question sakiye paxi score dekhauna lai
+  else {
+    quiz.innerHtml = `
+    <div class="result">
+    <h2> 🏆Your score: ${score}/${quizData.length} correct answers </h2>
+    <p>congratulations on completing the quiz!🎉 </p>
+    <button class="reload-button" onclick="location.reload()">Play Again 🔁</button>
+    `;
+  }
+});
